@@ -4,11 +4,6 @@ import {
   validatorCompiler,
   type ZodTypeProvider,
 } from "fastify-type-provider-zod";
-import { createGoalRoute } from "./routes/create-goal";
-import { createCompletionRoute } from "./routes/create-completion";
-import { getPendingGoalsRoute } from "./routes/get-pending-goals";
-import { getWeekSummaryRoute } from "./routes/get-week-summary";
-import { cartRoutes } from "./routes/cartRoutes";
 
 import fastifyCors from "@fastify/cors";
 import fastifyJwt from "@fastify/jwt";
@@ -16,6 +11,7 @@ import fastifyJwt from "@fastify/jwt";
 import { env } from "../env";
 import { authenticate } from "./middlewares/authMiddleware";
 import { productRoutes } from "./routes/productRoutes";
+import { cartRoutes } from "./routes/cartRoutes";
 
 const app = fastify().withTypeProvider<ZodTypeProvider>();
 
@@ -33,10 +29,6 @@ app.register(fastifyJwt, {
 
 // Middleware de autenticação
 app.decorate("authenticate", authenticate);
-app.register(createGoalRoute);
-app.register(createCompletionRoute);
-app.register(getPendingGoalsRoute);
-app.register(getWeekSummaryRoute);
 
 app.register(cartRoutes);
 app.register(productRoutes);
