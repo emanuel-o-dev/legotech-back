@@ -10,14 +10,14 @@ export async function cartRoutes(app: FastifyInstance) {
       productId: string;
       quantity: number;
     };
-    const userId = (request.user as any).userId;
+    const userId = request.user.userId;
 
     await CartService.addItem(userId, productId, quantity);
     return reply.send({ message: "Item adicionado ao carrinho." });
   });
 
   app.get("/cart", async (request, reply) => {
-    const userId = (request.user as any).userId;
+    const userId = request.user.userId;
     const cart = await CartService.getCart(userId);
     return reply.send(cart);
   });
