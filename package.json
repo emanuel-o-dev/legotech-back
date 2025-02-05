@@ -1,0 +1,36 @@
+{
+  "name": "legotech-bacck",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev": "tsx watch --env-file .env src/http/server.ts",
+    "build": "tsup src ",
+    "start": "node  dist/http/server.js",
+    "seed": "tsx --env-file .env src/db/seed.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@biomejs/biome": "1.8.3",
+    "@types/node": "^22.5.4",
+    "drizzle-kit": "^0.30.4",
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.2"
+  },
+  "dependencies": {
+    "@fastify/cors": "^9.0.1",
+    "@paralleldrive/cuid2": "^2.2.2",
+    "dayjs": "^1.11.13",
+    "dotenv": "^16.4.7",
+    "drizzle-orm": "^0.39.1",
+    "fastify": "^4.28.1",
+    "fastify-type-provider-zod": "^2.0.0",
+    "ioredis": "^5.4.2",
+    "postgres": "^3.4.5",
+    "postgres-js": "^0.1.0",
+    "tsup": "^8.3.0",
+    "zod": "^3.23.8"
+  }
+}
