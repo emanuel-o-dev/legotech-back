@@ -1,18 +1,11 @@
 import z from "zod";
-
-const envSchema = z.object({
-  DATABASE_URL: z.string().url(),
-});
-
-export const env = envSchema.parse(process.env);
-
 import dotenv from "dotenv";
 
 dotenv.config();
-
-const envSchemaRedis = z.object({
+const envSchema = z.object({
   DATABASE_URL: z.string().url(),
   REDIS_URL: z.string().url(),
+  JWT_SECRET: z.string(),
+  PORT: z.string(),
 });
-
-export const envRedis = envSchemaRedis.parse(process.env);
+export const env = envSchema.parse(process.env);

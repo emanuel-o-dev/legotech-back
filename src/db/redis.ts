@@ -1,7 +1,7 @@
 import Redis from "ioredis";
-import { envRedis } from "../env"; // Importando o env validado pelo Zod
+import { env } from "../env"; // Importando o env validado pelo Zod
 
-export const redis = new Redis(envRedis.REDIS_URL, {
+export const redis = new Redis(env.REDIS_URL, {
   tls: { rejectUnauthorized: false }, // Necessário para conexões seguras no Render
 });
 
