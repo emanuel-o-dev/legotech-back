@@ -12,15 +12,16 @@ import { env } from "../env";
 import { authenticate } from "./middlewares/authMiddleware";
 import { productRoutes } from "./routes/productRoutes";
 import { cartRoutes } from "./routes/cartRoutes";
+import { purchaseRoutes } from "./routes/purchaseRoutes";
 
 const app = fastify().withTypeProvider<ZodTypeProvider>();
+
+app.setValidatorCompiler(validatorCompiler);
+app.setSerializerCompiler(serializerCompiler);
 
 app.register(fastifyCors, {
   origin: "*",
 });
-
-app.setValidatorCompiler(validatorCompiler);
-app.setSerializerCompiler(serializerCompiler);
 
 // Configurar JWT
 app.register(fastifyJwt, {
@@ -32,6 +33,7 @@ app.decorate("authenticate", authenticate);
 
 app.register(cartRoutes);
 app.register(productRoutes);
+app.register(purchaseRoutes);
 
 // Iniciar o servidor
 const start = async () => {

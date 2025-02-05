@@ -1,24 +1,29 @@
 import { FastifyInstance } from "fastify";
-import { authenticate } from "../middlewares/authMiddleware"; // Importando o middleware
-import { CartService } from "../../services/cart";
+import { authenticate } from "../middlewares/authMiddleware";
+import { CartService } from "../../services/cartService";
 
-export async function cartRoutes(app: FastifyInstance) {
-  app.addHook("onRequest", authenticate); // Aplica o middleware em todas as rotas abaixo
+export async function cartRoutes(fastify: FastifyInstance) {
+  fastify.post(
+    "/cart/add",
+    { preHandler: authenticate }, // Middleware de autenticação
+    async (request, reply) => {
+      const { productId, quantity } = request.body as {
+        productId: number;
+        quantity: number;
+      };
+      const userId = request.user.userId; // O usuário autenticado
 
-  app.post("/cart/add", async (request, reply) => {
-    const { productId, quantity } = request.body as {
-      productId: string;
-      quantity: number;
-    };
-    const userId = request.user.userId;
-
-    await CartService.addItem(userId, productId, quantity);
-    return reply.send({ message: "Item adicionado ao carrinho." });
-  });
-
-  app.get("/cart", async (request, reply) => {
-    const userId = request.user.userId;
-    const cart = await CartService.getCart(userId);
-    return reply.send(cart);
-  });
+      try {
+        const cartService = new CartService();
+        await cartService.addToCart(userId, productId, quantity);
+        return reply
+          .status(201)
+          .send({ message: "Produto adicionado ao carrinho." });
+      } catch (error) {
+        return reply
+          .status(500)
+          .send({ error: "Erro ao adicionar produto ao carrinho." });
+      }
+    }
+  );
 }
