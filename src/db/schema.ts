@@ -6,6 +6,7 @@ import {
   numeric,
   timestamp,
   integer,
+  decimal,
 } from "drizzle-orm/pg-core";
 
 // Definindo a tabela de usuários
@@ -18,12 +19,14 @@ export const users = pgTable("users", {
 });
 
 // Definindo a tabela de produtos
+
 export const products = pgTable("products", {
   id: serial("id").primaryKey(),
-  name: varchar("name", { length: 255 }),
-  description: text("description"),
-  price: numeric("price"), // Tipo numérico para o preço
-  stock_quantity: numeric("stock_quantity"), // Tipo numérico para quantidade
+  name: varchar("name", { length: 255 }).notNull(),
+  description: text("description").notNull(),
+  price: decimal("price", { precision: 10, scale: 2 }).notNull(),
+  stock_quantity: integer("stock_quantity").notNull(),
+  image_url: varchar("image_url", { length: 255 }), // Novo campo para a URL da imagem
 });
 
 // Definindo a tabela de pedidos

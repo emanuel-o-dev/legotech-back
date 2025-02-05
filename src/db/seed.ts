@@ -21,22 +21,39 @@ const seedDatabase = async () => {
   // Inserir produtos
   await db.insert(products).values([
     {
-      name: "Lego Star Wars Millennium Falcon",
-      description: "Construa o icônico Millennium Falcon.",
-      price: "899.99", // Convertendo o preço para string
-      stock_quantity: "10", // Convertendo a quantidade para string
+      name: "Lego Technic Car",
+      description: "Advanced Lego Technic car model",
+      price: "79.99", // Passando o preço como string
+      stock_quantity: 100,
+      image_url: "https://example.com/images/technic_car.jpg", // Imagem fictícia
     },
     {
-      name: "Lego Technic Bugatti Chiron",
-      description: "Modelo detalhado do supercarro Bugatti Chiron.",
-      price: "699.99",
-      stock_quantity: "5",
+      name: "Lego Star Wars Set",
+      description: "Star Wars Lego set with characters and vehicles",
+      price: "149.99", // Passando o preço como string
+      stock_quantity: 50,
+      image_url: "https://example.com/images/star_wars_set.jpg", // Imagem fictícia
     },
     {
-      name: "Lego Ninjago Destiny's Bounty",
-      description: "Embarque em aventuras com a Destiny's Bounty.",
-      price: "499.99",
-      stock_quantity: "7",
+      name: "Lego City Police Station",
+      description: "Police station building set",
+      price: "59.99", // Passando o preço como string
+      stock_quantity: 75,
+      image_url: "https://example.com/images/police_station.jpg", // Imagem fictícia
+    },
+    {
+      name: "Lego Creator Expert",
+      description: "Creator expert Lego set for advanced builders",
+      price: "129.99", // Passando o preço como string
+      stock_quantity: 30,
+      image_url: "https://example.com/images/creator_expert.jpg", // Imagem fictícia
+    },
+    {
+      name: "Lego Friends Set",
+      description: "Lego set for the Friends theme",
+      price: "49.99", // Passando o preço como string
+      stock_quantity: 120,
+      image_url: "https://example.com/images/friends_set.jpg", // Imagem fictícia
     },
   ]);
 

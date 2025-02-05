@@ -15,6 +15,7 @@ import fastifyJwt from "@fastify/jwt";
 
 import { env } from "../env";
 import { authenticate } from "./middlewares/authMiddleware";
+import { productRoutes } from "./routes/productRoutes";
 
 const app = fastify().withTypeProvider<ZodTypeProvider>();
 
@@ -38,6 +39,7 @@ app.register(getPendingGoalsRoute);
 app.register(getWeekSummaryRoute);
 
 app.register(cartRoutes);
+app.register(productRoutes);
 
 // Iniciar o servidor
 const start = async () => {
