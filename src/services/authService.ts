@@ -1,5 +1,4 @@
 import { FastifyInstance } from "fastify";
-import bcrypt from "bcrypt";
 import { UserService } from "./userService";
 
 export class AuthService {
@@ -13,12 +12,12 @@ export class AuthService {
       throw new Error("Usuário não encontrado ou id inválido");
     }
 
-    const passwordMatch = await bcrypt.compare(password, String(user.password));
-    if (!passwordMatch) {
+    // Verificando a senha diretamente
+    if (user.password !== password) {
       throw new Error("Senha incorreta");
     }
 
-    // Garantindo que user.id seja tratado como string, caso contrário gera um erro.
+    // Gerar o token JWT
     const token = this.app.jwt.sign({ userId: String(user.id) });
 
     return { token };

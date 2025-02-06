@@ -13,6 +13,8 @@ import { authenticate } from "./middlewares/authMiddleware";
 import { productRoutes } from "./routes/productRoutes";
 import { cartRoutes } from "./routes/cartRoutes";
 import { purchaseRoutes } from "./routes/purchaseRoutes";
+import { authRoutes } from "./routes/loginRoutes";
+import { registerRoutes } from "./routes/registerUser";
 
 const app = fastify().withTypeProvider<ZodTypeProvider>();
 
@@ -34,6 +36,8 @@ app.decorate("authenticate", authenticate);
 app.register(cartRoutes);
 app.register(productRoutes);
 app.register(purchaseRoutes);
+app.register(authRoutes);
+app.register(registerRoutes);
 
 // Iniciar o servidor
 const start = async () => {
@@ -50,4 +54,5 @@ const start = async () => {
 };
 
 start();
+
 export { app };
