@@ -4,9 +4,9 @@ import {
   validatorCompiler,
   type ZodTypeProvider,
 } from "fastify-type-provider-zod";
+import fastifyJwt from "@fastify/jwt";
 
 import fastifyCors from "@fastify/cors";
-import fastifyJwt from "@fastify/jwt";
 
 import { env } from "../env";
 import { authenticate } from "./middlewares/authMiddleware";
@@ -14,7 +14,7 @@ import { productRoutes } from "./routes/productRoutes";
 import { cartRoutes } from "./routes/cartRoutes";
 import { purchaseRoutes } from "./routes/purchaseRoutes";
 import { authRoutes } from "./routes/loginRoutes";
-import { registerRoutes } from "./routes/registerUser";
+import { userRoutes } from "./routes/userRouter";
 
 const app = fastify().withTypeProvider<ZodTypeProvider>();
 
@@ -37,7 +37,7 @@ app.register(cartRoutes);
 app.register(productRoutes);
 app.register(purchaseRoutes);
 app.register(authRoutes);
-app.register(registerRoutes);
+app.register(userRoutes);
 
 // Iniciar o servidor
 const start = async () => {

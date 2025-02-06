@@ -17,7 +17,6 @@ export async function authRoutes(app: FastifyInstance) {
       const authService = new AuthService(app);
       const result = await authService.login(email, password);
 
-      console.log(result);
       // Verifique se o resultado contém a propriedade token
       if ("token" in result) {
         return reply.send({ token: result.token });
