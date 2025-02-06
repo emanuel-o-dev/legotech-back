@@ -6,7 +6,8 @@
     "dev": "tsx watch --env-file .env src/http/server.ts",
     "build": "tsup src ",
     "start": "node  dist/http/server.js",
-    "seed": "tsx --env-file .env src/db/seed.ts"
+    "seed": "tsx --env-file .env src/db/seed.ts",
+    "cleanDatabase": "tsx --env-file .env src/db/cleanDatabase.ts"
   },
   "keywords": [],
   "author": "",
@@ -14,7 +15,6 @@
   "description": "",
   "devDependencies": {
     "@biomejs/biome": "1.8.3",
-    "@types/bcrypt": "^5.0.2",
     "@types/node": "^22.5.4",
     "drizzle-kit": "^0.30.4",
     "tsx": "^4.19.0",

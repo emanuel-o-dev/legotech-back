@@ -1,5 +1,5 @@
 {
-  "id": "bc595b75-6dcf-4c4e-a2e9-fd89a576999e",
+  "id": "05f94ade-1252-4f98-934d-72772d05df70",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -140,23 +140,29 @@
           "name": "name",
           "type": "varchar(255)",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         },
         "description": {
           "name": "description",
           "type": "text",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         },
         "price": {
           "name": "price",
-          "type": "numeric",
+          "type": "numeric(10, 2)",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         },
         "stock_quantity": {
           "name": "stock_quantity",
-          "type": "numeric",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "image_url": {
+          "name": "image_url",
+          "type": "varchar(255)",
           "primaryKey": false,
           "notNull": false
         }

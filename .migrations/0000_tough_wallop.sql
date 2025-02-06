@@ -15,10 +15,11 @@ CREATE TABLE "orders" (
 --> statement-breakpoint
 CREATE TABLE "products" (
 	"id" serial PRIMARY KEY NOT NULL,
-	"name" varchar(255),
-	"description" text,
-	"price" numeric,
-	"stock_quantity" numeric
+	"name" varchar(255) NOT NULL,
+	"description" text NOT NULL,
+	"price" numeric(10, 2) NOT NULL,
+	"stock_quantity" integer NOT NULL,
+	"image_url" varchar(255)
 );
 --> statement-breakpoint
 CREATE TABLE "users" (
