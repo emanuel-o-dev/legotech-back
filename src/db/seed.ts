@@ -23,43 +23,46 @@ const seedDatabase = async () => {
     {
       name: "Lego Technic Car",
       description: "Advanced Lego Technic car model",
-      price: "79.99", // Passando o preço como string
+      price: "79.99",
       stock_quantity: 100,
-      image_url: "https://example.com/images/technic_car.jpg", // Imagem fictícia
+      image_url: "https://m.media-amazon.com/images/I/81pWNcUBpGL.jpg",
     },
     {
       name: "Lego Star Wars Set",
       description: "Star Wars Lego set with characters and vehicles",
-      price: "149.99", // Passando o preço como string
+      price: "149.99",
       stock_quantity: 50,
-      image_url: "https://example.com/images/star_wars_set.jpg", // Imagem fictícia
+      image_url: "https://m.media-amazon.com/images/I/814iDqQEBlL.jpg",
     },
     {
       name: "Lego City Police Station",
       description: "Police station building set",
-      price: "59.99", // Passando o preço como string
+      price: "59.99",
       stock_quantity: 75,
-      image_url: "https://example.com/images/police_station.jpg", // Imagem fictícia
+      image_url:
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS7xb6rkXO0uJSyntEKzY9pUlwklqDHvGOxQQ&s",
     },
     {
       name: "Lego Creator Expert",
       description: "Creator expert Lego set for advanced builders",
-      price: "129.99", // Passando o preço como string
+      price: "129.99",
       stock_quantity: 30,
-      image_url: "https://example.com/images/creator_expert.jpg", // Imagem fictícia
+      image_url:
+        "https://http2.mlstatic.com/D_NQ_NP_997580-MLB75448119734_042024-O.webp",
     },
     {
       name: "Lego Friends Set",
       description: "Lego set for the Friends theme",
-      price: "49.99", // Passando o preço como string
+      price: "49.99",
       stock_quantity: 120,
-      image_url: "https://example.com/images/friends_set.jpg", // Imagem fictícia
+      image_url:
+        "https://www.anneclairebaby.com/cdn/shop/files/81Zw3uKoPwL._AC_SL1500.jpg?v=1706507963",
     },
   ]);
 
   // Inserir pedidos
   await db.insert(orders).values([
-    { user_id: 1, total_amount: "899.99" }, // Total como string
+    { user_id: 1, total_amount: "899.99" },
     { user_id: 2, total_amount: "1199.98" },
   ]);
 
