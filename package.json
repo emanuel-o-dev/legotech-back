@@ -7,7 +7,7 @@
     "build": "tsup src ",
     "start": "node  dist/http/server.js",
     "seed": "tsx src/db/seed.ts",
-    "cleanDatabase": "tsx --env-file .env src/db/cleanDatabase.ts"
+    "cleanDatabase": "tsx src/db/cleanDatabase.ts"
   },
   "keywords": [],
   "author": "",
