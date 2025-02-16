@@ -7,6 +7,16 @@ export class UserService {
     const user = await db.select().from(users).where(eq(users.email, email));
     return user.length > 0 ? user[0] : null;
   }
+
+  static async getUserById(userId: string) {
+    const user = await db
+      .select()
+      .from(users)
+      .where(eq(users.id, Number(userId)))
+      .limit(1);
+
+    return user.length > 0 ? user[0] : null;
+  }
   static async registerUser(
     name: string,
     email: string,
