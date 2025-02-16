@@ -53,16 +53,17 @@ export class CartService {
 
     // Busque os dados completos dos produtos
     const productDetails = await db
-  .select({
-    productId: products.id,
-    name: products.name,
-    description: products.description,
-    price: products.price,
-    imageUrl: products.image_url,
-  })
-  .from(products)
-  .where(sql`${products.id} IN (${sql.array(productIds, 'int4')})`) // Use sql.array para garantir o tipo correto
-  .execute();
+    .select({
+      productId: products.id,
+      name: products.name,
+      description: products.description,
+      price: products.price,
+      imageUrl: products.image_url,
+    })
+    .from(products)
+    .where(sql`${products.id} IN (${sql.array(productIds, 'int4')})`) // Passando como um array de inteiros
+    .execute();
+
 
 
     // Adiciona os detalhes do produto aos itens do carrinho
