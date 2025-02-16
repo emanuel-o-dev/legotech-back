@@ -3,59 +3,61 @@ import { z } from "zod";
 import { UserService } from "../../services/userService";
 
 export async function userRoutes(app: FastifyInstance) {
-  app.post("/signin", async (request, reply) => {
-    const userSchema = z.object({
-      name: z.string(),
-      email: z.string().email(),
-      password: z.string().min(4),
-      address: z.string(),
-    });
+  app.post("/users/signin", handleUserSignIn);
+  app.put("/users/:id", handleUserUpdate);
+  app.delete("/users/:id", handleUserDelete);
+}
 
+// Handler para criação de usuário (signin)
+async function handleUserSignIn(request: FastifyRequest, reply: FastifyReply) {
+  const userSchema = z.object({
+    name: z.string(),
+    email: z.string().email(),
+    password: z.string().min(4),
+    address: z.string(),
+  });
+
+  try {
     const { name, email, password, address } = userSchema.parse(request.body);
+    const result = await UserService.registerUser(name, email, password, address);
 
-    try {
-      const result = await UserService.registerUser(
-        name,
-        email,
-        password,
-        address,
-        app
-      );
-      return reply.status(201).send(result);
-    } catch (error: any) {
-      return reply.status(400).send({ error: error.message });
-    }
+    return reply.status(201).send(result);
+  } catch (error: any) {
+    return reply.status(400).send({ error: error.message });
+  }
+}
+
+// Handler para atualização de usuário
+async function handleUserUpdate(request: FastifyRequest, reply: FastifyReply) {
+  const userUpdateSchema = z.object({
+    name: z.string().optional(),
+    email: z.string().email().optional(),
+    password: z.string().min(4).optional(),
+    address: z.string().optional(),
   });
-  app.put("/user/:id", async (request: FastifyRequest, reply: FastifyReply) => {
-    const { id } = request.params as { id: number }; // Pegando o id dos parâmetros
 
-    const userUpdateSchema = z.object({
-      name: z.string().optional(),
-      email: z.string().email().optional(),
-      password: z.string().min(4).optional(),
-      address: z.string().optional(),
-    });
+  try {
+    const { id } = request.params as { id: string };
+    const updates = userUpdateSchema.parse(request.body);
+    const result = await UserService.updateUser(id, updates);
 
-    try {
-      const updates = userUpdateSchema.parse(request.body);
-      const result = await UserService.updateUser(String(id), updates);
-      return reply.send(result);
-    } catch (error) {
-      if (error instanceof z.ZodError) {
-        return reply.status(400).send({ error: error.errors });
-      }
-      return reply.status(500).send({ error: "Internal Server Error" });
+    return reply.send(result);
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      return reply.status(400).send({ error: error.errors });
     }
-  });
-  app.delete("/users/:id", async (request, reply) => {
-    try {
-      const { id } = request.params as { id: string };
+    return reply.status(500).send({ error: "Internal Server Error" });
+  }
+}
 
-      const response = await UserService.deleteUserById(Number(id));
+// Handler para remoção de usuário
+async function handleUserDelete(request: FastifyRequest, reply: FastifyReply) {
+  try {
+    const { id } = request.params as { id: string };
+    const response = await UserService.deleteUserById(Number(id));
 
-      return reply.status(200).send(response);
-    } catch (error: any) {
-      return reply.status(400).send({ error: error.message });
-    }
-  });
+    return reply.status(200).send(response);
+  } catch (error: any) {
+    return reply.status(400).send({ error: error.message });
+  }
 }
