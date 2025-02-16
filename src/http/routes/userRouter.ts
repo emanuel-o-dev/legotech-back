@@ -1,6 +1,7 @@
 import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
 import { UserService } from "../../services/userService";
+import { authenticate } from "../middlewares/authMiddleware";
 
 export async function userRoutes(app: FastifyInstance) {
   app.post("/users/signin", handleUserSignIn);
