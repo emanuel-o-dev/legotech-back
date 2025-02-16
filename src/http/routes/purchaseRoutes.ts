@@ -2,7 +2,7 @@
 import { FastifyInstance, FastifyRequest, FastifyReply } from "fastify";
 import { authenticate } from "../middlewares/authMiddleware"; // Importe o middleware de autenticação
 import { CartService } from "../../services/cartService";
-
+import { OrderService } from "../services/orderService";
 interface FinalizePurchaseParams {
   userId: string;
 }
@@ -17,7 +17,16 @@ interface ConfirmPaymentBody {
 
 export async function purchaseRoutes(fastify: FastifyInstance) {
   const cartService = new CartService();
-
+  
+  fastify.get("/purchases", { preHandler: authenticate }, async (request, reply) => {
+    try {
+      const userId = request.user.userId;
+      const purchases = await OrderService.getUserOrders(userId);
+      return reply.send(purchases);
+    } catch (error: any) {
+      return reply.status(500).send({ error: error.message });
+    }
+  });
   // Rota para finalizar a compra, não precisa de autenticação
   fastify.post<{ Params: FinalizePurchaseParams }>(
     "/purchase/:userId",
