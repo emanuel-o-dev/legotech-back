@@ -85,23 +85,4 @@ export async function cartRoutes(fastify: FastifyInstance) {
     }
   );
 
-  // Rota para finalizar a compra
-  fastify.post(
-    "/purchase/:userId",
-    { preHandler: authenticate }, // Middleware de autenticação
-    async (request, reply) => {
-      const { userId } = request.params as { userId: string };
-
-      try {
-        const orderId = await cartService.finalizePurchase(userId);
-        return reply
-          .status(201)
-          .send({ message: "Compra finalizada", orderId });
-      } catch (error) {
-        return reply
-          .status(500)
-          .send({ error: "Erro ao finalizar a compra." });
-      }
-    }
-  );
 }
