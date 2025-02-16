@@ -8,6 +8,21 @@ export async function userRoutes(app: FastifyInstance) {
   app.delete("/users/:id", handleUserDelete);
 }
 
+app.get("/user", { preHandler: authenticate }, async (request, reply) => {
+    try {
+      const userId = request.user.userId;
+      const user = await UserService.getUserById(userId);
+
+      if (!user) {
+        return reply.status(404).send({ error: "Usuário não encontrado" });
+      }
+
+      return reply.status(200).send(user); // Retorna todos os dados do usuário, incluindo a senha
+    } catch (error) {
+      console.error("Erro ao buscar usuário:", error);
+      return reply.status(500).send({ error: "Erro ao buscar usuário" });
+    }
+  });
 // Handler para criação de usuário (signin)
 async function handleUserSignIn(request: FastifyRequest, reply: FastifyReply) {
   const userSchema = z.object({
