@@ -14,7 +14,7 @@ export async function authRoutes(app: FastifyInstance) {
   const signupSchema = z.object({
     name: z.string().min(3),
     email: z.string().email(),
-    password: z.string().min(6),
+    password: z.string().min(4),
     address: z.string().min(5),
   });
 
