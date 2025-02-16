@@ -1,6 +1,7 @@
 import { sql } from "drizzle-orm";
 import { db } from "../db";
 import { redis } from "../db/redis";
+import { inArray } from 'drizzle-orm';
 import { order_items, orders, products } from "../db/schema";
 
 export class CartService {
@@ -52,17 +53,19 @@ export class CartService {
     if (productIds.length === 0) return [];
 
     // Busque os dados completos dos produtos
+
     const productDetails = await db
-    .select({
-      productId: products.id,
-      name: products.name,
-      description: products.description,
-      price: products.price,
-      imageUrl: products.image_url,
-    })
-    .from(products)
-    .where(sql`${products.id} IN (${sql.array(productIds, 'int4')})`) // Passando como um array de inteiros
-    .execute();
+      .select({
+        productId: products.id,
+        name: products.name,
+        description: products.description,
+        price: products.price,
+        imageUrl: products.image_url,
+      })
+      .from(products)
+      .where(inArray(products.id, productIds)) // 🚀 Correção aqui
+      .execute();
+
 
 
 
