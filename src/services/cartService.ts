@@ -48,6 +48,9 @@ export class CartService {
       JSON.parse(String(item)).productId
     );
 
+    // Verifica se existem IDs de produtos
+    if (productIds.length === 0) return [];
+
     // Busque os dados completos dos produtos
     const productDetails = await db
       .select({
@@ -58,7 +61,7 @@ export class CartService {
         imageUrl: products.image_url,
       })
       .from(products)
-      .where(sql`${products.id} IN (${productIds.join(",")})`)
+      .where(sql`${products.id} IN (${sql.join(productIds, ', ')})`) // Passando os IDs como array
       .execute();
 
     // Adiciona os detalhes do produto aos itens do carrinho
@@ -76,6 +79,7 @@ export class CartService {
     throw new Error("Erro interno ao recuperar o carrinho.");
   }
 }
+
 
   async removeFromCart(userId: string, productId: number) {
     const cartKey = this.cartKey(userId);
