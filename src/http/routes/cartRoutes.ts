@@ -18,7 +18,18 @@ export async function cartRoutes(fastify: FastifyInstance) {
       return reply.status(500).send({ error: "Erro ao adicionar produto ao carrinho." });
     }
   });
+  
+  fastify.get("/cart/quantity", { preHandler: authenticate }, async (request, reply) => {
+  const userId = request.user.userId;
 
+  try {
+    const quantity = await cartService.getCartQuantity(userId);
+    return reply.status(200).send({ quantity });
+  } catch (error) {
+    console.error("Erro ao recuperar quantidade de itens no carrinho:", error);
+    return reply.status(500).send({ error: "Erro ao recuperar quantidade de itens no carrinho." });
+  }
+});
   // Atualizar a quantidade de um item no carrinho
   fastify.put("/cart/update", { preHandler: authenticate }, async (request, reply) => {
     const { productId, quantity } = request.body as { productId: number; quantity: number };
