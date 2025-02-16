@@ -119,32 +119,22 @@ export class CartService {
         throw new Error("Carrinho vazio!");
       }
 
-      // 2. Calcular o total do pedido
-      const productDetails = await db
-        .select({
-          productId: products.id,
-          price: products.price,
-          quantity: sql`jsonb_extract_path_text(${cartItems}, 'quantity')`.as(
-            "quantity"
-          ),
-        })
-        .from(products)
-        .where(
-          sql`${products.id} IN (${cartItems
-            .map((item) => item.productId)
-            .join(",")})`
-        )
-        .execute();
+     const productIds = cartItems.map((item) => item.productId);
 
-      let totalAmount = 0;
-      for (const item of productDetails) {
-        const product = cartItems.find(
-          (cartItem) => cartItem.productId === item.productId
-        );
-        if (product) {
-          totalAmount += Number(item.price) * Number(item.quantity);
-        }
-      }
+    const productDetails = await db
+      .select({
+        productId: products.id,
+        price: products.price,
+      })
+      .from(products)
+      .where(inArray(products.id, productIds)) 
+      .execute();
+
+      let totalAmount = cartItems.reduce((total, item) => {
+        const product = productDetails.find((prod) => prod.productId === item.productId);
+        return product ? total + Number(product.price) * item.quantity : total;
+      }, 0);
+
 
       // 3. Criação do pedido no banco de dados
       const [order] = await db
