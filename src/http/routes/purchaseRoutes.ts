@@ -2,7 +2,7 @@
 import { FastifyInstance, FastifyRequest, FastifyReply } from "fastify";
 import { authenticate } from "../middlewares/authMiddleware"; // Importe o middleware de autenticação
 import { CartService } from "../../services/cartService";
-import { OrderService } from "../services/orderService";
+import { OrderService } from "../../services/orderService";
 interface FinalizePurchaseParams {
   userId: string;
 }
