@@ -38,18 +38,44 @@ export class CartService {
   }
 
   async getCart(userId: string) {
-    const cartKey = this.cartKey(userId);
+  const cartKey = this.cartKey(userId);
 
-    try {
-      const items = await redis.hgetall(cartKey);
-      if (!items || Object.keys(items).length === 0) return [];
+  try {
+    const items = await redis.hgetall(cartKey);
+    if (!items || Object.keys(items).length === 0) return [];
 
-      return Object.values(items).map((item) => JSON.parse(String(item)));
-    } catch (error) {
-      console.error("Erro ao recuperar carrinho:", error);
-      throw new Error("Erro interno ao recuperar o carrinho.");
-    }
+    const productIds = Object.values(items).map((item) =>
+      JSON.parse(String(item)).productId
+    );
+
+    // Busque os dados completos dos produtos
+    const productDetails = await db
+      .select({
+        productId: products.id,
+        name: products.name,
+        description: products.description,
+        price: products.price,
+        imageUrl: products.image_url,
+      })
+      .from(products)
+      .where(sql`${products.id} IN (${productIds.join(",")})`)
+      .execute();
+
+    // Adiciona os detalhes do produto aos itens do carrinho
+    const cartItemsWithDetails = Object.values(items).map((item) => {
+      const cartItem = JSON.parse(String(item));
+      const product = productDetails.find(
+        (prod) => prod.productId === cartItem.productId
+      );
+      return { ...cartItem, ...product }; // Junta os dados do produto no carrinho
+    });
+
+    return cartItemsWithDetails;
+  } catch (error) {
+    console.error("Erro ao recuperar carrinho:", error);
+    throw new Error("Erro interno ao recuperar o carrinho.");
   }
+}
 
   async removeFromCart(userId: string, productId: number) {
     const cartKey = this.cartKey(userId);
