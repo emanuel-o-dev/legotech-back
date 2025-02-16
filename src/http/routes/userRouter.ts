@@ -6,9 +6,7 @@ export async function userRoutes(app: FastifyInstance) {
   app.post("/users/signin", handleUserSignIn);
   app.put("/users/:id", handleUserUpdate);
   app.delete("/users/:id", handleUserDelete);
-}
-
-app.get("/user", { preHandler: authenticate }, async (request, reply) => {
+  app.get("/user", { preHandler: authenticate }, async (request, reply) => {
     try {
       const userId = request.user.userId;
       const user = await UserService.getUserById(userId);
@@ -23,6 +21,9 @@ app.get("/user", { preHandler: authenticate }, async (request, reply) => {
       return reply.status(500).send({ error: "Erro ao buscar usuário" });
     }
   });
+}
+
+
 // Handler para criação de usuário (signin)
 async function handleUserSignIn(request: FastifyRequest, reply: FastifyReply) {
   const userSchema = z.object({
