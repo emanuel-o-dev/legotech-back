@@ -18,17 +18,22 @@ export async function cartRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // Rota para obter os itens do carrinho
   fastify.get("/cart", { preHandler: authenticate }, async (request, reply) => {
-    const userId = request.user.userId; // Usuário autenticado
+  const userId = request.user.userId; // Usuário autenticado
 
-    try {
-      const cartItems = await cartService.getCart(userId);
-      return reply.status(200).send(cartItems); // Retorna os itens do carrinho
-    } catch (error) {
-      return reply.status(500).send({ error: "Erro ao recuperar itens do carrinho." });
-    }
-  });
+  if (!userId) {
+    return reply.status(400).send({ error: "Usuário não autenticado." });
+  }
+
+  try {
+    const cartItems = await cartService.getCart(userId);
+    return reply.status(200).send(cartItems); // Retorna os itens do carrinho
+  } catch (error) {
+    console.error("Erro ao recuperar carrinho:", error);
+    return reply.status(500).send({ error: "Erro ao recuperar itens do carrinho." });
+  }
+});
+
 
   // Rota para remover um item do carrinho
   fastify.delete("/cart/remove/:productId", { preHandler: authenticate }, async (request, reply) => {
