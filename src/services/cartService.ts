@@ -7,7 +7,11 @@ export class CartService {
   private cartKey(userId: string) {
     return `cart:${userId}`;
   }
-
+  async getCartQuantity(userId: string): Promise<number> {
+    // Verifique o carrinho do usuário no Redis ou no banco de dados
+    const cartItems = await this.getCart(userId);  // Isso assume que `getCart` retorna todos os itens do carrinho
+    return cartItems.reduce((total, item) => total + item.quantity, 0); // Soma a quantidade de cada item
+  }
   async addToCart(userId: string, productId: number, quantity: number) {
     const cartKey = this.cartKey(userId);
 
