@@ -16,8 +16,8 @@
   "devDependencies": {
     "@biomejs/biome": "1.8.3",
     "@types/node": "^22.5.4",
-    "drizzle-kit": "^0.30.4",
-    "tsx": "^4.19.0",
+    "drizzle-kit": "^0.31.4",
+    "tsx": "^4.20.3",
     "typescript": "^5.6.2"
   },
   "dependencies": {
@@ -32,7 +32,7 @@
     "ioredis": "^5.4.2",
     "postgres": "^3.4.5",
     "postgres-js": "^0.1.0",
-    "tsup": "^8.3.0",
+    "tsup": "^8.5.0",
     "zod": "^3.23.8"
   }
 }
